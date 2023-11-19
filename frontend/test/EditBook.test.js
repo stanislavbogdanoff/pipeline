@@ -76,12 +76,10 @@ test("displays error message on book fetch failure", async () => {
       expect(axios.get).toHaveBeenCalledWith("http://localhost:5555/books/123");
     });
   } catch (error) {
-    // Handle the error if Axios request fails
-    // You can log or handle the error here
+    console.error(error);
   }
 
-  // Ensure the error message is displayed in the Snackbar
-  const errorAlert = await findByRole("alert"); // Update this to match the actual role used for the error message
+  const errorAlert = await findByRole("alert");
   expect(errorAlert).toBeInTheDocument();
   expect(errorAlert.textContent).toMatch(
     "An error happened. Please check the console"
