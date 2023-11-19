@@ -88,4 +88,67 @@ describe("Book API Routes", () => {
     expect(response.status).toBe(200);
     expect(response.body).toEqual(mockDeleteMessage);
   });
+
+  it("should handle invalid book data on POST", async () => {
+    const invalidBookData = {
+      title: "Sample Book",
+      // Missing author and publishYear
+    };
+
+    const response = await request(app).post("/").send(invalidBookData);
+
+    expect(response.statusCode).toBe(400);
+    expect(response.body).toMatchObject({
+      message: "Send all required fields: title, author, publishYear",
+    });
+  });
+
+  it("should handle server error on POST", async () => {
+    const bookData = {
+      title: "Sample Book",
+      author: "John Doe",
+      publishYear: 2023,
+    };
+
+    // Force an error by rejecting the create operation
+    Book.create.mockRejectedValue(new Error("Server error"));
+
+    const response = await request(app).post("/").send(bookData);
+
+    expect(response.statusCode).toBe(500);
+    expect(response.body).toMatchObject({
+      message: "Server error",
+    });
+  });
+
+  it("should handle server error on PUT", async () => {
+    const mockBookId = "someId";
+
+    // Force an error by rejecting the update operation
+    Book.findByIdAndUpdate.mockRejectedValue(new Error("Server error"));
+
+    const response = await request(app).put(`/${mockBookId}`).send({
+      title: "Updated Title",
+      author: "Updated Author",
+      publishYear: 2023,
+    });
+
+    expect(response.status).toBe(500);
+    expect(response.body).toMatchObject({
+      message: "Server error",
+    });
+  });
+
+  it("should handle book not found by ID on DELETE", async () => {
+    const mockBookId = "nonexistentId";
+
+    Book.findByIdAndDelete.mockResolvedValue(null);
+
+    const response = await request(app).delete(`/${mockBookId}`);
+
+    expect(response.status).toBe(404);
+    expect(response.body).toMatchObject({
+      message: "Book not found",
+    });
+  });
 });
