@@ -26,7 +26,9 @@ const EditBook = () => {
       })
       .catch((error) => {
         setLoading(false);
-        alert("An error happened. Please Chack console");
+        enqueueSnackbar("An error happened. Please check the console", {
+          variant: "error",
+        });
         console.log(error);
       });
   }, []);
@@ -60,8 +62,11 @@ const EditBook = () => {
       {loading ? <Spinner /> : ""}
       <div className="flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto">
         <div className="my-4">
-          <label className="text-xl mr-4 text-gray-500">Title</label>
+          <label className="text-xl mr-4 text-gray-500" htmlFor="titleInput">
+            Title
+          </label>
           <input
+            id="titleInput"
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
@@ -69,8 +74,11 @@ const EditBook = () => {
           />
         </div>
         <div className="my-4">
-          <label className="text-xl mr-4 text-gray-500">Author</label>
+          <label className="text-xl mr-4 text-gray-500" htmlFor="authorInput">
+            Author
+          </label>
           <input
+            id="authorInput"
             type="text"
             value={author}
             onChange={(e) => setAuthor(e.target.value)}
@@ -78,8 +86,11 @@ const EditBook = () => {
           />
         </div>
         <div className="my-4">
-          <label className="text-xl mr-4 text-gray-500">Publish Year</label>
+          <label className="text-xl mr-4 text-gray-500" htmlFor="publishInput">
+            Publish Year
+          </label>
           <input
+            id="publishInput"
             type="number"
             value={publishYear}
             onChange={(e) => setPublishYear(e.target.value)}
