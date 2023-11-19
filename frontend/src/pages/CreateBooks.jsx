@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import BackButton from "../components/BackButton";
 import Spinner from "../components/Spinner";
 import axios from "axios";
@@ -29,7 +29,6 @@ const CreateBooks = () => {
       })
       .catch((error) => {
         setLoading(false);
-        // alert('An error happened. Please Chack console');
         enqueueSnackbar("Error", { variant: "error" });
         console.log(error);
       });
@@ -42,8 +41,11 @@ const CreateBooks = () => {
       {loading ? <Spinner /> : ""}
       <div className="flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto">
         <div className="my-4">
-          <label className="text-xl mr-4 text-gray-500">Title</label>
+          <label htmlFor="title" className="text-xl mr-4 text-gray-500">
+            Title
+          </label>
           <input
+            id="title"
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
@@ -51,8 +53,11 @@ const CreateBooks = () => {
           />
         </div>
         <div className="my-4">
-          <label className="text-xl mr-4 text-gray-500">Author</label>
+          <label htmlFor="author" className="text-xl mr-4 text-gray-500">
+            Author
+          </label>
           <input
+            id="author"
             type="text"
             value={author}
             onChange={(e) => setAuthor(e.target.value)}
@@ -60,8 +65,11 @@ const CreateBooks = () => {
           />
         </div>
         <div className="my-4">
-          <label className="text-xl mr-4 text-gray-500">Publish Year</label>
+          <label htmlFor="publishYear" className="text-xl mr-4 text-gray-500">
+            Publish Year
+          </label>
           <input
+            id="publishYear"
             type="number"
             value={publishYear}
             onChange={(e) => setPublishYear(e.target.value)}
